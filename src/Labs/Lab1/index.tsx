@@ -1,7 +1,7 @@
 export default function Lab1() {
   return (
     <div id="wd-lab1">
-      <h2>Lab 1</h2>
+      <h2>Lab 1 - Declan Lowney section 37031</h2>
       <h3>HTML Examples</h3>
       <div id="wd-h-tag">
         <h4>Heading Tags</h4>
@@ -159,7 +159,6 @@ Your favorite books (in no particular order)
            value="Wonderland"
            title="The last name"
            id="wd-text-fields-last-name" />
-    {/* copy rest of form elements here  */}
   </form>
 </div>
 <h5>Text boxes</h5>
