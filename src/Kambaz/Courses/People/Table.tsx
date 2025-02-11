@@ -1,4 +1,3 @@
-import React from "react";
 import { useParams } from "react-router-dom";
 import users from "../../Database/users.json";
 import enrollments from "../../Database/enrollments.json";

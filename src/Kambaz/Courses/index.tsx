@@ -9,7 +9,7 @@ import { HiOutlineBars4 } from "react-icons/hi2";
 import PeopleTable from "./People/Table";
 export default function Courses() {
   const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
+  const course = courses.find((course: any) => course._id === cid);
   const { pathname } = useLocation();
     return (
       <div id="wd-courses">
