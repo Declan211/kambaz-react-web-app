@@ -1,26 +1,21 @@
 import { Badge, Button, Card, Col, Form, Row } from "react-bootstrap";
 import { ImCross } from "react-icons/im";
 import { IoIosArrowDown } from "react-icons/io";
+import assignments from "./assignments.json"
+import { useParams } from "react-router-dom";
 
 export default function AssignmentEditor() {
+  const { cid, aid } = useParams();
+  const assignment = assignments.find(assignment => assignment._id === aid);
+  console.log(cid);
     return (
       <div id="wd-assignments-editor">
         <p>Assignment Name</p>
-        <Form.Control id="wd-name" type="text" defaultValue="A1" />
+        <Form.Control id="wd-name" type="text" defaultValue={assignment?.title} />
   <br />
   <Form.Control
   as="textarea"
-  defaultValue="The assignment is available online 
-
-  Submit a link to the landing page of your Web application running on Netlify. 
-  
-  The landing page should include the following:
-
-    - Your full name and section
-    - Links to each of the lab assignments
-    - Link to the Kanbas application
-    - Links to all relevant source code repositories
-    - The Kanbas application should include a link to navigate back to the landing page."
+  defaultValue= {assignment?.description}
   style={{
     height: "300px",
     borderRadius: "0",
@@ -35,7 +30,7 @@ export default function AssignmentEditor() {
           <Form.Label htmlFor="wd-points">Points</Form.Label>
         </Col>
         <Col>
-          <Form.Control id="wd-name" type="text" defaultValue="100" />
+          <Form.Control id="wd-name" type="text" defaultValue={ assignment?.points} />
         </Col>
       </Row>
 
@@ -127,14 +122,14 @@ export default function AssignmentEditor() {
     <Form.Control
   type="datetime-local"
   id="wd-due-date"
-  defaultValue="2024-05-13T23:59"
+  defaultValue={assignment?.dueDate}
 />
 <br />
 <Row>
       <Col md={6}>
         <Form.Group controlId="wd-available-from">
           <Form.Label><strong>Available from</strong></Form.Label>
-          <Form.Control type="datetime-local" defaultValue="2024-05-06T12:00" />
+          <Form.Control type="datetime-local" defaultValue={assignment?.availableStart}/>
         </Form.Group>
       </Col>
       <Col md={6}>

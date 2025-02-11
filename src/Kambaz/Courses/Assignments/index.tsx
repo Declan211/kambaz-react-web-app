@@ -6,8 +6,11 @@ import GreenCheckmark from "../Modules/GreenCheckmark";
 import { PiNotePencil } from "react-icons/pi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { FaSearch } from "react-icons/fa";
+import { useParams } from "react-router-dom";
+import assignments from "./assignments.json"
 
 export default function Assignments() {
+  const { cid } = useParams();
     return (
       <div id="wd-assignments">
   <div className="d-flex align-items-center mb-3">
@@ -51,104 +54,41 @@ export default function Assignments() {
     <FaPlus />
     <HiDotsVertical />
   </div>
+  
 </div>
-        <ListGroup className="wd-lessons rounded-0">
-        <ListGroup.Item className="wd-lesson p-3 ps-1">
-  <div className="d-flex justify-content-between align-items-center">
-    <div className="d-flex align-items-center gap-3">
-      <BsGripVertical className="me-2 fs-3" />
-      <PiNotePencil size={32} className="text-success fs-5" />
-      <div>
-      <h4 className="mb-1">
-      <a href="#/Kambaz/Courses/1234/Assignments/123"
-               className="wd-assignment-link" >
-              A1 
-            </a>
-      </h4>
-        <p className="text-danger mb-1 small d-inline">Multiple Modules</p>
-        <p className="text-muted small mb-1 d-inline"> |
-          <strong> Not available until </strong> May 6 at 12:00am |
-        </p>
-        <p className="text-dark small mb-0">
-          <strong>Due</strong> May 13 at 11:59pm | 100 pts
-        </p>
-      </div>
-      
+<div className="wd-lessons rounded-0">
+      {assignments
+      .filter((assignment: any) => assignment.course === cid)
+      .map(({ _id, title, availableStart, dueDate, points, course }) => (
+        <div key={_id} className="wd-lesson p-3 ps-1">
+          <div className="d-flex justify-content-between align-items-center">
+            <div className="d-flex align-items-center gap-3">
+              <BsGripVertical className="me-2 fs-3" />
+              <PiNotePencil size={32} className="text-success fs-5" />
+              <div>
+                <h4 className="mb-1">
+                  <a href={`#/Kambaz/Courses/${course}/Assignments/${_id}`} className="wd-assignment-link">
+                    {title}
+                  </a>
+                </h4>
+                <p className="text-danger mb-1 small d-inline">Multiple Modules</p>
+                <p className="text-muted small mb-1 d-inline"> |
+                  <strong> Not available until </strong> {new Date(availableStart).toLocaleDateString(undefined, { month: "long", day: "numeric" })} at 12:00am |
+                </p>
+                <p className="text-dark small mb-0">
+                  <strong>Due</strong> {new Date(dueDate).toLocaleDateString(undefined, { month: "long", day: "numeric" })} at 11:59pm | {points} pts
+                </p>
+              </div>
+            </div>
+            <div className="ms-auto d-flex gap-2">
+              <GreenCheckmark />
+              <HiDotsVertical />
+            </div>
+          </div>
+        </div>
+      ))}
     </div>
-    <div>
-    </div>
-    <div className="ms-auto d-flex gap-2">
-          <GreenCheckmark />
-          <HiDotsVertical />
-      </div>
-  </div>
-
-</ListGroup.Item>
-<ListGroup.Item className="wd-lesson p-3 ps-1">
-  <div className="d-flex justify-content-between align-items-center">
-    <div className="d-flex align-items-center gap-3">
-      <BsGripVertical className="me-2 fs-3" />
-      <PiNotePencil size={32} className="text-success fs-5" />
-      <div>
-      <h4 className="mb-1">
-      <a href="#/Kambaz/Courses/1234/Assignments/123"
-               className="wd-assignment-link" >
-              A2
-            </a>
-      </h4>
-        <p className="text-danger mb-1 small d-inline">Multiple Modules</p>
-        <p className="text-muted small mb-1 d-inline"> |
-          <strong> Not available until </strong> May 13 at 12:00am |
-        </p>
-        <p className="text-dark small mb-0">
-          <strong>Due</strong> May 20 at 11:59pm | 100 pts
-        </p>
-      </div>
-      
-    </div>
-    <div>
-    </div>
-    <div className="ms-auto d-flex gap-2">
-          <GreenCheckmark />
-          <HiDotsVertical />
-      </div>
-  </div>
-
-</ListGroup.Item>
-<ListGroup.Item className="wd-lesson p-3 ps-1">
-  <div className="d-flex justify-content-between align-items-center">
-    <div className="d-flex align-items-center gap-3">
-      <BsGripVertical className="me-2 fs-3" />
-      <PiNotePencil size={32} className="text-success fs-5" />
-      <div>
-      <h4 className="mb-1">
-      <a href="#/Kambaz/Courses/1234/Assignments/123"
-               className="wd-assignment-link" >
-              A3
-            </a>
-      </h4>
-        <p className="text-danger mb-1 small d-inline">Multiple Modules</p>
-        <p className="text-muted small mb-1 d-inline"> |
-          <strong> Not available until </strong> May 20 at 12:00am |
-        </p>
-        <p className="text-dark small mb-0">
-          <strong>Due</strong> May 27 at 11:59pm | 100 pts
-        </p>
-      </div>
-      
-    </div>
-    <div>
-    </div>
-    <div className="ms-auto d-flex gap-2">
-          <GreenCheckmark />
-          <HiDotsVertical />
-      </div>
-  </div>
-
-</ListGroup.Item>
-            </ListGroup>
           </ListGroup.Item>
-          
         </ListGroup>
       </div>
   );}
