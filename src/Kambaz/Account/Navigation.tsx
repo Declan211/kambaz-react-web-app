@@ -1,25 +1,36 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 export default function CourseNavigation() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
   const [selectedLink, setSelectedLink] = useState("Signin");
-  const selectedClasses = "text-black active"
-  const unselectedClasses = "text-danger"
+
+  const selectedClasses = "text-black active";
+  const unselectedClasses = "text-danger";
+
+  const linkPaths: { [key: string]: string } = {
+    Signin: "/Kambaz/Account/Signin",
+    Signup: "/Kambaz/Account/Signup",
+    Profile: "/Kambaz/Account/Profile",
+  };
+
   return (
     <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
-      <Link to="/Kambaz/Account/Signin" id="wd-course-home-link"
-        className={`list-group-item text-danger border border-0 ${
-          selectedLink === "Signin" ? selectedClasses : unselectedClasses
-        }`}
-        onClick={() => setSelectedLink("Signin")}> Signin </Link>
-      <Link to="/Kambaz/Account/Signup" id="wd-course-modules-link"
-        className={`list-group-item text-danger border border-0 ${
-          selectedLink === "Signup" ? selectedClasses : unselectedClasses
-        }`}
-        onClick={() => setSelectedLink("Signup")}> Signup </Link>
-      <Link to="/Kambaz/Account/Profile" id="wd-course-piazza-link"
-        className={`list-group-item text-danger border border-0 ${
-          selectedLink === "Profile" ? selectedClasses : unselectedClasses
-        }`}
-        onClick={() => setSelectedLink("Profile")}> Profile </Link>
+      {links.map((link) => (
+        <Link
+          key={link}
+          to={linkPaths[link]}
+          id={`wd-course-${link.toLowerCase()}-link`}
+          className={`list-group-item text-danger border border-0 ${
+            selectedLink === link ? selectedClasses : unselectedClasses
+          }`}
+          onClick={() => setSelectedLink(link)}
+        >
+          {link}
+        </Link>
+      ))}
     </div>
-);}
+  );
+}
