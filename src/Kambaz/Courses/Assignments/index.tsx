@@ -25,9 +25,6 @@ export default function Assignments() {
   const [dueDate, setDueDate] = useState("");
   const [availFromDate, setAvailFromDate] = useState("");
   const [availToDate, setAvailToDate] = useState("");
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const handleResetStates = () => {
     setAssignmentName("New Assignment");
     setAssignmentDescription("New Assignment Description");
@@ -36,8 +33,6 @@ export default function Assignments() {
     setAvailFromDate("");
     setAvailToDate("");
   }
-
-
 
     return (
       <div id="wd-assignments">
@@ -111,7 +106,7 @@ export default function Assignments() {
 
 
 
-                    <Modal show={assignment.editing} onHide={handleClose} onEnter={() => {
+                    <Modal show={assignment.editing} onEnter={() => {
                       setAssignmentName(assignment.title);
                       setAssignmentDescription(assignment.description);
                       setAssignmentPoints(assignment.points);
@@ -189,13 +184,11 @@ export default function Assignments() {
     <Button variant="secondary"onClick={() => {
       dispatch(updateAssignment({ ...assignment, title: assignmentName, description: assignmentDescription, points: assignmentPoints, 
         availableStart: availFromDate, availableUntil: availToDate, dueDate: dueDate, editing: false }));
-      handleClose();
      }}> Cancel </Button>
     <Button variant="primary"
      onClick={() => {
       dispatch(updateAssignment({ ...assignment, editing: false }))
       handleResetStates();
-      handleClose();
      }} > Update Assignment </Button>
    </Modal.Footer>
   </Modal>
