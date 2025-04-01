@@ -4,22 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 import {  editCourse } from "./Courses/reducer";
 import { useState } from "react";
 import { enrollInCourse, unenrollFromCourse } from "./Courses/enrollmentsReducer";
+import * as enrollmentsClient from "./Courses/Enrollments/client"
 
 export default function Dashboard(
   {  courses, setCourse, courseName, setCourseName, description, setDescription, addNewCourse,
-    deleteCourse, updateCourse }: {
+    deleteCourse, updateCourse, showAllCourses, setShowAllCourses }: {
     courses: any[]; course: any; setCourse: (course: any) => void;
     courseName: string, setCourseName: (name: string) => void;
     description: string, setDescription: (description: string) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
-    updateCourse: () => void; }) {
+    updateCourse: () => void; showAllCourses: boolean, setShowAllCourses: (value: boolean) => void;}) {
       const { currentUser } = useSelector((state: any) => state.accountReducer);
       const enrollments = useSelector((state: any) => state.enrollmentReducer.enrollments);
       const isFaculty = currentUser.role === 'FACULTY';
       const isStudent = currentUser.role === 'STUDENT';
       const dispatch = useDispatch();
       const navigate = useNavigate();
-      const [showAllCourses, setShowAllCourses] = useState(false);
+    
 
       const isEnrolled = (courseId: string) => {
         return enrollments.some(
@@ -29,6 +30,7 @@ export default function Dashboard(
       };
 
       const handleEnroll = (courseId: string) => {
+        enrollmentsClient.enrollUserInCourse(currentUser._id, courseId)
         dispatch(enrollInCourse({
           user: currentUser._id,
           course: courseId
@@ -36,6 +38,7 @@ export default function Dashboard(
       };
 
       const handleUnenroll = (courseId: string) => {
+        enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId)
         dispatch(unenrollFromCourse({
           user: currentUser._id,
           course: courseId
@@ -107,14 +110,7 @@ export default function Dashboard(
           <div id="wd-dashboard-courses">
             <Row xs={1} md={5} className="g-4">
               {courses
-                .filter((course) => {
-                  if (isStudent) {
-                    return showAllCourses ? true : isEnrolled(course._id);
-                  } else {
-                    return isEnrolled(course._id);
-                  }
-                })
-                .map((course: any) => (
+                  .map((course: any) => (
                   <Col key={course._id} className="wd-dashboard-course" style={{ width: "300px" }}>
                     <Card>
                       <Card.Img src="/images/reactjs.jpg" width="100%" height={160} />

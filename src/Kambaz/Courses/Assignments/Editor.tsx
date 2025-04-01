@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const assignment = assignments.find(assignment => assignment._id === aid);
-  console.log(cid);
     return (
       <div id="wd-assignments-editor">
         <p>Assignment Name</p>

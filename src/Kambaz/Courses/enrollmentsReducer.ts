@@ -11,7 +11,6 @@ const enrollmentSlice = createSlice({
   initialState,
   reducers: {
     enrollInCourse: (state, { payload }) => {
-      // Check if already enrolled to avoid duplicates
       const alreadyEnrolled = state.enrollments.some(
         (enrollment) => 
           enrollment.user === payload.user && 
