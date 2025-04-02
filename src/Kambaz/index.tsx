@@ -37,7 +37,6 @@ export default function Kambaz() {
     fetchCourses();
   }, [currentUser, showAllCourses]);
 
-  const dispatch = useDispatch();
   const [courseName, setCourseName] = useState("New Course");
   const [description, setDescription] = useState("New Course Description")
   const addNewCourse = async () => {
