@@ -13,7 +13,7 @@ export default function KambazNavigation() {
     { label: "Inbox",     path: "/Kambaz/Inbox",     icon: FaInbox },
     { label: "Labs",      path: "/Labs",             icon: LiaCogSolid },
   ];
-  
+
   return (
     <div id="wd-kambaz-navigation" style={{width: 120}}
          className="list-group rounded-0 position-fixed bottom-0 top-0 d-none d-md-block bg-black z-2">
@@ -36,3 +36,5 @@ export default function KambazNavigation() {
       ))}
     </div>
 );}
+
+
