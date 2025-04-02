@@ -7,7 +7,7 @@ import "./index.css"
 import "./styles.css"
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as userClient from "./Account/client";
 import * as client from "./Courses/client";
 import * as courseClient from "./Courses/client";
