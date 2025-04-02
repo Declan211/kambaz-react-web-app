@@ -2,7 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {  editCourse } from "./Courses/reducer";
-import { useState } from "react";
 import { enrollInCourse, unenrollFromCourse } from "./Courses/enrollmentsReducer";
 import * as enrollmentsClient from "./Courses/Enrollments/client"
 

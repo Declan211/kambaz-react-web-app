@@ -8,9 +8,7 @@ import "./styles.css"
 import { useEffect, useState } from "react";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import { useDispatch, useSelector } from "react-redux";
-import { addCourse, deleteCourse, updateCourse } from "./Courses/reducer";
 import * as userClient from "./Account/client";
-import * as db from "./Database";
 import * as client from "./Courses/client";
 import * as courseClient from "./Courses/client";
 
