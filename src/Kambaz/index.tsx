@@ -18,36 +18,55 @@ export default function Kambaz() {
     startDate: "2023-09-10", endDate: "2023-12-15", description: "New Description",
   });
   const [courses, setCourses] = useState<any[]>([]);
-  const { currentUser } = useSelector((state: any) => state.accountReducer);
-  const [showAllCourses, setShowAllCourses] = useState(false);
-  const fetchCourses = async () => {
+  const [enrolling, setEnrolling] = useState<boolean>(false);
+  const findCoursesForUser = async () => {
     try {
-      let courses = [];
-      if (!showAllCourses) {
-        courses = await userClient.findMyCourses()
-      } else {
-        courses = await client.fetchAllCourses();
-      }
+      const courses = await userClient.findCoursesForUser(currentUser._id);
       setCourses(courses);
     } catch (error) {
       console.error(error);
     }
   };
+  const fetchCourses = async () => {
+    try {
+      const allCourses = await courseClient.fetchAllCourses();
+      const enrolledCourses = await userClient.findCoursesForUser(
+        currentUser._id
+      );
+      const courses = allCourses.map((course: any) => {
+        if (enrolledCourses.find((c: any) => c._id === course._id)) {
+          return { ...course, enrolled: true };
+        } else {
+          return course;
+        }
+      });
+      setCourses(courses);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+ 
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
   useEffect(() => {
-    fetchCourses();
-  }, [currentUser, showAllCourses]);
+    if (enrolling) {
+      fetchCourses();
+    } else {
+      findCoursesForUser();
+    }
+  }, [currentUser, enrolling]);
 
   const [courseName, setCourseName] = useState("New Course");
   const [description, setDescription] = useState("New Course Description")
   const addNewCourse = async () => {
-    const newCourse = await userClient.createCourse({...course, name: courseName, description: description});
+    const newCourse = await courseClient.createCourse({...course, name: courseName, description: description});
     setCourses([ ...courses, newCourse ]);
   };
 
-  const deleteCourseAction = async (courseId: any) => {
+  const deleteCourseAction = async (courseId: string) => {
     await courseClient.deleteCourse(courseId);
     setCourses(courses.filter((course) => course._id !== courseId));
-  };;
+  };
+ 
   const updateCourseAction = async () => {
     await courseClient.updateCourse({course});
     setCourses(courses.map((c) => {
@@ -55,6 +74,23 @@ export default function Kambaz() {
         else { return c; }
     })
   );};
+  const updateEnrollment = async (courseId: string, enrolled: boolean) => {
+    if (enrolled) {
+      await userClient.enrollIntoCourse(currentUser._id, courseId);
+    } else {
+      await userClient.unenrollFromCourse(currentUser._id, courseId);
+    }
+    setCourses(
+      courses.map((course) => {
+        if (course._id === courseId) {
+          return { ...course, enrolled: enrolled };
+        } else {
+          return course;
+        }
+      })
+    );
+  };
+ 
 
 
   return (
@@ -75,8 +111,9 @@ export default function Kambaz() {
               addNewCourse={addNewCourse}
               deleteCourse={deleteCourseAction}
               updateCourse={updateCourseAction}
-              showAllCourses={showAllCourses}
-              setShowAllCourses={setShowAllCourses}/> </ProtectedRoute>} />
+              enrolling={enrolling}
+              setEnrolling={setEnrolling}
+              updateEnrollment={updateEnrollment}/> </ProtectedRoute>} />
           <Route path="/Courses/:cid/*" element={<ProtectedRoute><Courses courses={courses}/> </ProtectedRoute>} />
           <Route path="/Calendar" element={<h1>Calendar</h1>} />
           <Route path="/Inbox" element={<h1>Inbox</h1>} />

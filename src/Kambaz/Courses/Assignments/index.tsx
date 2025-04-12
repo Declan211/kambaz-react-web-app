@@ -40,14 +40,14 @@ export default function Assignments() {
     setAvailToDate("");
   };
 
-  const fetchAssignments = async () => {
-    const assignments = await coursesClient.findAssignmentsForCourse(cid as string);
-    dispatch(setAssignments(assignments));
+  const fetchAssignmentsForCourse = async () => {
+    const modules = await coursesClient.findAssignmentsForCourse(cid!);
+    dispatch(setAssignments(modules));
   };
-
   useEffect(() => {
-    fetchAssignments();
-  }, []);
+    fetchAssignmentsForCourse();
+  }, [cid]);
+
 
   const createAsssignmentForCourse = async () => {
     if (!cid) return;

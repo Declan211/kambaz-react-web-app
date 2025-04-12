@@ -7,12 +7,13 @@ import * as enrollmentsClient from "./Courses/Enrollments/client"
 
 export default function Dashboard(
   {  courses, setCourse, courseName, setCourseName, description, setDescription, addNewCourse,
-    deleteCourse, updateCourse, showAllCourses, setShowAllCourses }: {
+    deleteCourse, updateCourse, enrolling, setEnrolling, updateEnrollment}: {
     courses: any[]; course: any; setCourse: (course: any) => void;
     courseName: string, setCourseName: (name: string) => void;
     description: string, setDescription: (description: string) => void;
     addNewCourse: () => void; deleteCourse: (course: any) => void;
-    updateCourse: () => void; showAllCourses: boolean, setShowAllCourses: (value: boolean) => void;}) {
+    updateCourse: () => void; enrolling: boolean, setEnrolling: (value: boolean) => void;
+    updateEnrollment: (courseId: string, enrolled: boolean) => void;}) {
       const { currentUser } = useSelector((state: any) => state.accountReducer);
       const enrollments = useSelector((state: any) => state.enrollmentReducer.enrollments);
       const isFaculty = currentUser.role === 'FACULTY';
@@ -61,7 +62,7 @@ export default function Dashboard(
             {isStudent && (
               <Button 
                 variant="primary" 
-                onClick={() => setShowAllCourses(!showAllCourses)}
+                onClick={() => setEnrolling(!enrolling)}
               >
                 Enrollments
               </Button>
@@ -128,25 +129,14 @@ export default function Dashboard(
                           Go
                         </Link>
 
-                        {isStudent && (
-                          isEnrolled(course._id) ? (
-                            <Button 
-                              variant="danger" 
-                              className="float-end"
-                              onClick={() => handleUnenroll(course._id)}
-                            >
-                              Unenroll
-                            </Button>
-                          ) : (
-                            <Button 
-                              variant="success" 
-                              className="float-end"
-                              onClick={() => handleEnroll(course._id)}
-                            >
-                              Enroll
-                            </Button>
-                          )
-                        )}
+          {enrolling && (
+              <button  onClick={(event) => {
+                event.preventDefault();
+                updateEnrollment(course._id, !course.enrolled);
+              }} className={`btn ${ course.enrolled ? "btn-danger" : "btn-success" } float-end`} >
+                {course.enrolled ? "Unenroll" : "Enroll"}
+              </button>
+            )}
                         
                         {isFaculty && (
                           <>

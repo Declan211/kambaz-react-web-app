@@ -6,6 +6,7 @@ import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { HiOutlineBars4 } from "react-icons/hi2";
 import PeopleTable from "./People/Table";
+import PeopleCourseTable from "./People/PeopleCourseTable";
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();
   const course = courses.find((course: any) => course._id === cid);
@@ -28,7 +29,7 @@ export default function Courses({ courses }: { courses: any[]; }) {
               <Route path="Modules" element={<Modules />} />
               <Route path="Assignments" element={<Assignments />} />
               <Route path="Assignments/:aid" element={<AssignmentEditor />} />
-              <Route path="People" element={<PeopleTable />} />
+              <Route path="People" element={<PeopleCourseTable />} />
             </Routes>
             </div></div>
       </div>
