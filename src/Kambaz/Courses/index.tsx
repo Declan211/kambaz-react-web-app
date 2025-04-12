@@ -5,7 +5,6 @@ import Home from "./Home";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import { HiOutlineBars4 } from "react-icons/hi2";
-import PeopleTable from "./People/Table";
 import PeopleCourseTable from "./People/PeopleCourseTable";
 export default function Courses({ courses }: { courses: any[]; }) {
   const { cid } = useParams();

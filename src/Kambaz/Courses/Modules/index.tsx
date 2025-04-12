@@ -8,33 +8,17 @@ import { setModules, addModule, editModule, updateModule, deleteModule }
   from "./reducer";
 import * as modulesClient from "./client";
 import * as courseClient from "../client";
-import * as coursesClient from "../client";
 import { useSelector, useDispatch } from "react-redux";
 export default function Modules() {
   const { cid } = useParams();
   const { modules } = useSelector((state: any) => state.modulesReducer);
   const dispatch = useDispatch();
-  const saveModule = async (module: any) => {
-    await modulesClient.updateModule(module);
-    dispatch(updateModule(module));
-  };
 
-  const removeModule = async (moduleId: string) => {
-    await modulesClient.deleteModule(moduleId);
-    dispatch(deleteModule(moduleId));
-  };
   const deleteModuleHandler = async (moduleId: string) => {
     await modulesClient.deleteModule(moduleId);
     dispatch(deleteModule(moduleId));
   };
  
-
-  // const createModuleForCourse = async () => {
-  //   if (!cid) return;
-  //   const newModule = { name: moduleName, course: cid };
-  //   const module = await coursesClient.createModuleForCourse(cid, newModule);
-  //   dispatch(addModule(module));
-  // };
 
   const updateModuleHandler = async (module: any) => {
     await modulesClient.updateModule(module);

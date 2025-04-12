@@ -2,8 +2,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {  editCourse } from "./Courses/reducer";
-import { enrollInCourse, unenrollFromCourse } from "./Courses/enrollmentsReducer";
-import * as enrollmentsClient from "./Courses/Enrollments/client"
 
 export default function Dashboard(
   {  courses, setCourse, courseName, setCourseName, description, setDescription, addNewCourse,
@@ -27,22 +25,6 @@ export default function Dashboard(
           (enrollment: { user: string; course: string }) =>
             enrollment.user === currentUser._id && enrollment.course === courseId
         );
-      };
-
-      const handleEnroll = (courseId: string) => {
-        enrollmentsClient.enrollUserInCourse(currentUser._id, courseId)
-        dispatch(enrollInCourse({
-          user: currentUser._id,
-          course: courseId
-        }));
-      };
-
-      const handleUnenroll = (courseId: string) => {
-        enrollmentsClient.unenrollUserFromCourse(currentUser._id, courseId)
-        dispatch(unenrollFromCourse({
-          user: currentUser._id,
-          course: courseId
-        }));
       };
 
       const navigateToCourse = (courseId: string, event: React.MouseEvent) => {
